@@ -49,7 +49,7 @@ class Helper
      * @throws \RuntimeException
      * @return string
      */
-    protected static function patchDate($date, $time = '00:00')
+    public static function patchDate($date, $time = '00:00')
     {
         if (preg_match("/^(\d{6})\s+(\d{2}:\d{2})$/", $date, $matches)) { return $matches[1].'_'.$matches[2]; }
         return $date . '_' . $time;
