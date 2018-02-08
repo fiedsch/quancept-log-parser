@@ -145,11 +145,12 @@ class AccountsResults
     }
 
     /**
+     * Add a record for the analysis "per day"
      * @param string $day
      * @param array $data
      */
     public function addDayRecord($day, $data) {
-        if (!isset($this->data['day'][$day])) {
+        if (!isset($this->data[self::BY_DAY][$day])) {
             $this->data[self::BY_DAY][$day] = self::getInitialData(true);
         }
 
