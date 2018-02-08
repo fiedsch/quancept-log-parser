@@ -13,6 +13,8 @@ class Helper
 
     /**
      * Does the current record lie between the two dates (and respective times)
+     * Date/Time recorded in human readable format like "180328 13:45" for
+     * 2018-03-28 13:45 (local time)
      *
      * @param string $date date of the log entry
      * @param string $time timestamp of the log entry
@@ -41,6 +43,55 @@ class Helper
             return true;
         }
         return false;
+    }
+
+    /**
+     * Does the current record lie between the two dates (and respective times)
+     * Date/Time recorded as Unix Timestamp
+     *
+     * @param string $date date of the log entry
+     * @param string $time timestamp of the log entry
+     * @param string|null $start date and time to filter entry (e.g. '180110 00:00' or '180110' where '00:00' will be assumed)
+     * @param string|null $stop date and time to filter entry ('180120 23:59' as $start (with '23:59' fallback))
+     * @throws \RuntimeException
+     * @return bool
+     */
+    public static function tsIsBetween($timestamp, $start = null, $stop = null)
+    {
+        if (null === $start && null === $stop) {
+            return true;
+        }
+        if (null !== $start) {
+            $start = self::patchDate($start, '00:00');
+        } else {
+            $start = self::patchDate('000101', '00:00'); // 2000-01-01 00:00
+        }
+        if (null !== $stop)  {
+            $stop  = self::patchDate($stop, '23:59');
+        } else {
+            $stop = self::patchDate('991231', '23:59'); // 2099-12-31 23:59
+        }
+        $start_ts = self::makeTimestamp($start);
+        $stop_ts = self::makeTimestamp($stop);
+        if ($start_ts <= $timestamp && $stop_ts >= $timestamp) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $datestimetring A date and time string formatted as "ymd H:i" (e.g. "180327 16:26" for "2018-03-27 16:26")
+     * @param string $timezone
+     * @return int
+     * @throws \RuntimeException
+     */
+    public static function makeTimestamp($datestimetring, $timezone = 'Europe/Berlin')
+    {
+        if (!preg_match("/^\d{6} \d{2}:\d{2}$/", $datestimetring)) {
+            throw new \RuntimeException("invalid date/time format: '$datestimetring'");
+        }
+        $dt = \DateTime::createFromFormat("ymd H:i" , $datestimetring, new \DateTimeZone($timezone));
+        return $dt->getTimestamp();
     }
 
     /**
