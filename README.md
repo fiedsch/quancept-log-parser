@@ -4,7 +4,7 @@ Quancept generates log files. Among these are `accounts.sms` and `projectname.qc
 
 This library provides classes that help to make parsing these files easier.
 
-This is Work in Progress. If you findsomething missing or wrong, please consider 
+This is Work in Progress. If you find something missing or wrong, please consider 
 opening an issue or even better make a pull request.
 
 ## Usage 
