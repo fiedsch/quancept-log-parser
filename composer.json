@@ -1,0 +1,30 @@
+{
+    "name": "fiedsch/quancept-log-parser",
+    "type": "library",
+    "description": "a library with helpers for managing quancept cati log files",
+    "keywords": [
+        "data",
+        "log files",
+        "csv",
+        "fixed width",
+        "quancept cati"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andreas Fieger",
+            "homepage": "https://github.com/fiedsch"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/fiedsch/quancept-log-parser/issues",
+        "source": "https://github.com/fiedsch/quancept-log-parser"
+    },
+    "require": {
+        "php": ">=7.1",
+        "fiedsch/datamanagement": "^0.8"
+    },
+  "autoload": {
+    "psr-4": {"": "src/"}
+  }
+}

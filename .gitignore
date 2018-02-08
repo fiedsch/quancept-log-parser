@@ -1,0 +1,9 @@
+schnitt.pl
+quancept_sms.pm
+TODO.md
+.idea/
+vendor/
+tests/assets/
+scan_qca.php
+scan_accounts.php
+composer.lock

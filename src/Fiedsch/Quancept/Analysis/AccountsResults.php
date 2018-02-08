@@ -1,0 +1,224 @@
+<?php
+
+namespace Fiedsch\Quancept\Analysis;
+
+error_reporting(E_ALL & ~E_NOTICE);
+
+use Fiedsch\Quancept\Helper;
+
+/**
+ * Store and analyze AccountsResults from parsing Quancept log files
+ *
+ * @package Fiedsch\Quancept
+ * @author Andreas Fieger
+ */
+class AccountsResults
+{
+    /**
+     * Names for input data columns
+     */
+    const INTERVIEWER = 'interviewer';
+    const KEY         = 'key';
+    const TELEPHONE   = 'telephone';
+    const TIMESTRIED  = 'timestried';
+    const START_DAY   = 'start_day';
+    const START_TIME  = 'start_time';
+    const DURATION    = 'duration';
+    const TIPCODE     = 'tipcode';
+    const EXITCODE    = 'exitcode';
+    const QUEUENAME   = 'queuename';
+    const QUEUENUMBER = 'queuenumber';
+
+    /**
+     * Names for results data columns
+     */
+    const TRIES = 'tries';
+    const STARTMINUTE = 'startminute';
+    const STOPMINUTE = 'stopminute';
+    const LASTSTOPMINUTE = 'laststopminute';
+    const TOTALMINUTES = 'totalminutes';
+    const IDLEMINUTES = 'idleminutes';
+    const IDLEBREAKS = 'idlebreaks';
+    const EXITCODES = 'exitcodes';
+    const TIPCODES = 'tipcodes';
+
+    /**
+     * Names for the types of data collection
+     */
+    const BY_DAY = 'day';
+    const BY_INTERVIEWER = 'interviewer';
+
+    /**
+     * Maximale Differenz zwischen zwei Interviewzeitpunkten, die noch nicht
+     * als Pause (d.h. Interviewer ausgeloggt) gewertet wird. Angabe in Minuten.
+     * Angewendet wird diese Zeitangabe auf die Differenz zwischen Endzeitpunkt
+     * eines Interviews und Startzeitpunkt des nächsten Interviews.
+     * @var integer
+     */
+    const DELTAINOUT = 5;
+
+    /**
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * AccountsResults constructor.
+     */
+    public function __construct()
+    {
+        $this->data = [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getData() {
+        $result = $this->data;
+        foreach ($result[self::BY_INTERVIEWER] as $interviewer => &$data) {
+            // remove internal data
+            unset($data[self::LASTSTOPMINUTE]);
+        }
+        return $result;
+    }
+
+    /**
+     * Return the interviewer names found in the analysis data
+     * @return array
+     */
+    public function getInterviewer()
+    {
+        return array_keys($this->data[self::BY_INTERVIEWER]);
+    }
+
+    /**
+     * Return the days found in the analysis data
+     * @return array
+     */
+    public function getDays()
+    {
+        return array_keys($this->data[self::BY_DAY]);
+    }
+
+    /**
+     * Add a record for the analysis "per interviewer"
+     * @param string $interviewer
+     * @param array $data
+     */
+    public function addInterviewerRecord($interviewer, $data) {
+        if (!isset($this->data[self::BY_INTERVIEWER][$interviewer])) {
+            $this->data[self::BY_INTERVIEWER][$interviewer] = self::getInitialData();
+        }
+
+        $mobfest = Helper::isMobileNumber($data[self::TELEPHONE]) ? 'mobil' : 'fest';
+
+        $record = &$this->data[self::BY_INTERVIEWER][$interviewer];
+
+        $record[self::TRIES][$data[self::START_DAY]][$mobfest]++;
+        $record[self::TIPCODES][$data[self::START_DAY]][$mobfest][$data[self::TIPCODE]]++;
+        $record[self::EXITCODES][$data[self::START_DAY]][$mobfest][$data[self::EXITCODE]]++;
+        $record[self::TOTALMINUTES][$data[self::START_DAY]][$mobfest] += $data[self::DURATION] / 60;
+        // get the time of the earliest and the latest record for this interviewer
+        $minute = self::getMinutes($data[self::START_TIME]);
+        if (!isset($record[self::STARTMINUTE][$data[self::START_DAY]])
+            || $record[self::STARTMINUTE][$data[self::START_DAY]] > $minute) {
+            $record[self::STARTMINUTE][$data[self::START_DAY]] = $minute;
+        }
+        $minute += $data[self::DURATION] / 60;
+        if (!isset($record[self::STOPMINUTE][$data[self::START_DAY]])
+            || $record[self::STOPMINUTE][$data[self::START_DAY]] < $minute) {
+            $record[self::STOPMINUTE][$data[self::START_DAY]] = $minute;
+        }
+        // Differenz zwischen zwei Interviewzeitpunkten erfassen und prüfen, ob dies
+        // bereits als Pause (d.h. Interviewer ausgeloggt) gewertet wird soll. Die
+        // Pause zwischen zwei Interviews wird  aus der Differenz zwischen Endzeitpunkt
+        // eines Interviews und Startzeitpunkt des nächsten Interviews des gleichen
+        // Interviewers gewertet!
+        // Die Stopzeit des vorhergehende Datensatzes auswerten (sofern es eine gibt)
+        $laststopminute = $record[self::LASTSTOPMINUTE][$data[self::START_DAY]] ?: 24*60;
+        $startminute = self::getMinutes($data[self::START_TIME]);
+        if ($laststopminute > 0 && ($laststopminute + self::DELTAINOUT < $startminute)) {
+            $record[self::IDLEMINUTES][$data[self::START_DAY]] += $startminute - $laststopminute;
+            $record[self::IDLEBREAKS][$data[self::START_DAY]]++;
+        }
+        $record[self::LASTSTOPMINUTE][$data[self::START_DAY]] = $startminute + $data[self::DURATION] / 60;
+    }
+
+    /**
+     * @param string $day
+     * @param array $data
+     */
+    public function addDayRecord($day, $data) {
+        if (!isset($this->data['day'][$day])) {
+            $this->data[self::BY_DAY][$day] = self::getInitialData(true);
+        }
+
+        $mobfest = Helper::isMobileNumber($data[self::TELEPHONE]) ? 'mobil' : 'fest';
+
+        $record = &$this->data[self::BY_DAY][$day];
+
+        // Logic mainly the same as in addInterviewerRecord() except for
+        // the computation of breaks that only makes sense on a
+        // per interviewer base.
+        $record[self::TRIES]++;
+        $record[self::TIPCODES][$mobfest][$data[self::TIPCODE]]++;
+        $record[self::EXITCODES][$mobfest][$data[self::EXITCODE]]++;
+        $record[self::TOTALMINUTES][$mobfest] += $data[self::DURATION] / 60;
+        $minute = self::getMinutes($data[self::START_TIME]);
+        if (!isset($record[self::STARTMINUTE])
+            || $record[self::STARTMINUTE] > $minute) {
+            $record[self::STARTMINUTE] = $minute;
+        }
+        $minute += $data[self::DURATION] / 60;
+        if (!isset($record[self::STOPMINUTE])
+            || $record[self::STOPMINUTE] < $minute) {
+            $record[self::STOPMINUTE] = $minute;
+        }
+    }
+
+    /**
+     * @param boolean $forDays create initial data for our analysis by days
+     * @return array
+     */
+    protected static function getInitialData($forDays = false)
+    {
+        $result = [
+            self::TRIES            => [],  // Gesamtzahl Versuche (vorgelegte Nummern)
+            self::STARTMINUTE      => [],  // Anfangszeit erstes Interview
+            self::STOPMINUTE       => [],  // Endzeit letztes Interview des Tages
+            self::LASTSTOPMINUTE   => [],  // Endzeit letztes aus accounts.sms gelesenes Interview
+            self::TOTALMINUTES     => [],  // Gesamtzeit (Loginzeit)
+            self::IDLEMINUTES      => [],  // Gesamtzeit die der Interviewer auf Status Pause war
+            self::IDLEBREAKS       => [],  // Anzahl der Perioden die in "idleminutes" summiert werden
+            self::EXITCODES        => [],  // alle Quancept-Exitcodes
+            self::TIPCODES         => [],  // alle Tipcodes
+        ];
+        if ($forDays) {
+            // here these values are scalars
+            $result[self::TRIES] = null;
+            $result[self::STARTMINUTE] = null;
+            $result[self::STOPMINUTE] = null;
+            $result[self::TOTALMINUTES] = null;
+            unset($result[self::LASTSTOPMINUTE]);
+            unset($result[self::IDLEMINUTES]);
+            unset($result[self::IDLEBREAKS]);
+        }
+        return $result;
+    }
+
+    /**
+     * Calculate minutes from an expression of hours:minutes format
+     * like '02:15' which would be 2 hour, 15 minutes which is 75 minutes
+     * @param integer $time
+     * @return integer
+     * @throws \RuntimeException
+     */
+    protected static function getMinutes($time)
+    {
+        if (!preg_match("/(\d+):(\d+)/", $time, $matches)) {
+            throw new \RuntimeException("invalid time '$time'");
+        }
+        return $matches[1]*60 + $matches[2];
+    }
+
+}
