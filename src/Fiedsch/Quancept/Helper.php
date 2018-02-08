@@ -51,8 +51,13 @@ class Helper
      */
     public static function patchDate($date, $time = '00:00')
     {
-        if (preg_match("/^(\d{6})\s+(\d{2}:\d{2})$/", $date, $matches)) { return $matches[1].'_'.$matches[2]; }
-        return $date . '_' . $time;
+        if (preg_match("/^(\d{6})\s+(\d{2}:\d{2})$/", $date, $matches)) {
+            return $matches[1] . ' ' . $matches[2];
+        }
+        if (!preg_match("/^\d{6}$/", $date) || !preg_match("/^\d{2}:\d{2}$/", $time)) {
+            throw new \RuntimeException("invalid date or time string supplied '$date' '$time'");
+        }
+        return $date .  ' ' . $time;
     }
 
     /**
