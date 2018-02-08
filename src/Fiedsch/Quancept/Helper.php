@@ -18,6 +18,7 @@ class Helper
      * @param string $time timestamp of the log entry
      * @param string|null $start date and time to filter entry (e.g. '180110 00:00' or '180110' where '00:00' will be assumed)
      * @param string|null $stop date and time to filter entry ('180120 23:59' as $start (with '23:59' fallback))
+     * @throws \RuntimeException
      * @return bool
      */
     public static function isBetween($date, $time, $start = null, $stop = null)
@@ -45,6 +46,7 @@ class Helper
     /**
      * @param string $date
      * @param string $time
+     * @throws \RuntimeException
      * @return string
      */
     protected static function patchDate($date, $time = '00:00')
