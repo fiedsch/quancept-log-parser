@@ -24,7 +24,9 @@
         "php": ">=7.1",
         "fiedsch/datamanagement": "^0.8"
     },
-  "autoload": {
-    "psr-4": {"": "src/"}
-  }
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
 }
