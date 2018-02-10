@@ -11,13 +11,13 @@ opening an issue or even better make a pull request.
 
 ### Installation
 
-````bash
-composer require fiedsch/quancept-log-parser *
-````
+```bash
+composer require "fiedsch/quancept-log-parser dev-master"
+```
 
 ### Example one parse `accounts.sms`
 
-````php
+```php
 require __DIR__ . "/vendor/autoload.php";
 
 use Fiedsch\Data\File\FixedWidthReader;
@@ -60,5 +60,30 @@ while (($line = $reader->getLine(FixedWidthReader::SKIP_EMPTY_LINES)) !== null) 
     // do something with $data here (e.g. aggregate values in $aggregated) 
     // Fit to your needs!
 }
-````
+```
 
+## Helpers
+
+### QcaResults
+
+```php
+$results = new QcaResults();
+// read lines of the `*.qca` file into $data
+// for every line do:
+    $results->addInterviewerRecord($data[Qca::USERNAME], $data);
+    $results->addDayRecord(date("ymd", $data[Qca::INTERVIEWSTARTTIMESTAMP]), $data);
+```
+
+### AccountsResults
+
+```php
+$results = new AccountsResults();
+// read lines of the `accounts.sms` file into $data
+// for every line do:
+    $results->addInterviewerRecord($data[AccountsResults::INTERVIEWER], $data);
+    $results->addDayRecord($data[AccountsResults::START_DAY], $data);
+```
+
+### Aggregation of QcaResults and AccountsResults
+
+* TODO
