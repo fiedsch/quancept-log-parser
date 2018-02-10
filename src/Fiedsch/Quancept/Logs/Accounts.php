@@ -2,6 +2,8 @@
 
 namespace Fiedsch\Quancept\Logs;
 
+use \Fiedsch\Quancept\Analysis\AccountsResults;
+
 /**
  * Accounts log parser constants
  *
@@ -70,5 +72,22 @@ class Accounts
 
     const INTERVIEWER_FROM = 60;
     const INTERVIEWER_TO = 72;
+
+    /**
+     * @var array predefined configuartion array to read all columns
+     * to be used with (e.g.) Fiedsch\Data\File\FixedWidthReader.
+     */
+    const ALL_COLUMNS = [
+        AccountsResults::KEY         => ['from' => Accounts::RECORD_KEY_FROM, 'to' => Accounts::RECORD_KEY_TO],
+        AccountsResults::TIMESTRIED  => ['from' => Accounts::TIMESTRIED_FROM, 'to' => Accounts::TIMESTRIED_TO],
+        AccountsResults::START_DAY   => ['from' => Accounts::START_DATE_FROM, 'to' => Accounts::START_DATE_TO],
+        AccountsResults::START_TIME  => ['from' => Accounts::START_TIME_FROM, 'to' => Accounts::START_TIME_TO],
+        AccountsResults::DURATION    => ['from' => Accounts::DURATION_FROM, 'to' => Accounts::DURATION_TO],
+        AccountsResults::TIPCODE     => ['from' => Accounts::TIPCODE_FROM, 'to' => Accounts::TIPCODE_TO],
+        AccountsResults::EXITCODE    => ['from' => Accounts::EXITCODE_FROM, 'to' => Accounts::EXITCODE_TO],
+        AccountsResults::QUEUENAME   => ['from' => Accounts::QUEUENAME_FROM, 'to' => Accounts::QUEUENAME_TO],
+        AccountsResults::QUEUENUMBER => ['from' => Accounts::QUEUENUMBER_FROM, 'to' => Accounts::QUEUENUMBER_TO],
+        AccountsResults::INTERVIEWER => ['from' => Accounts::INTERVIEWER_FROM, 'to' => Accounts::INTERVIEWER_TO],
+    ];
 
 }
