@@ -76,7 +76,10 @@ class QcaResults
      */
     public function getInterviewer()
     {
-        return array_keys($this->data[self::BY_INTERVIEWER]);
+        if (isset($this->data[self::BY_INTERVIEWER])) {
+            return array_keys($this->data[self::BY_INTERVIEWER]);
+        }
+        return [];
     }
 
     /**
@@ -85,7 +88,10 @@ class QcaResults
      */
     public function getDays()
     {
-        return array_keys($this->data[self::BY_DAY]);
+        if (isset($this->data[self::BY_DAY])) {
+            return array_keys($this->data[self::BY_DAY]);
+        }
+        return [];
     }
 
     /**
