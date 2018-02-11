@@ -49,8 +49,7 @@ class Helper
      * Does the current record lie between the two dates (and respective times)
      * Date/Time recorded as Unix Timestamp
      *
-     * @param string $date date of the log entry
-     * @param string $time timestamp of the log entry
+     * @param integer $timestamp timestamp of the log entry
      * @param string|null $start date and time to filter entry (e.g. '180110 00:00' or '180110' where '00:00' will be assumed)
      * @param string|null $stop date and time to filter entry ('180120 23:59' as $start (with '23:59' fallback))
      * @throws \RuntimeException
