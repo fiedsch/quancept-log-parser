@@ -9,6 +9,8 @@ namespace Fiedsch\Quancept\Logs;
  * @author Andreas Fieger
  */
 
+use Fiedsch\Quancept\Analysis\QcaResults;
+
 class Qca
 {
 
@@ -37,6 +39,28 @@ class Qca
     const LASTQUESTION = 15;
     const SMSKEY = 16;
 
-
+    /**
+     * @var array predefined configuartion array for all standard columns
+     * provided in the *.qca file.
+     */
+    const ALL_COLUMNS = [
+        QcaResults::STUDYNAME => Qca::STUDYNAME,
+        QcaResults::USERNAME => Qca::USERNAME,
+        QcaResults::USERNUMBER => Qca::USERNUMBER,
+        QcaResults::INTERVIEWSTARTTIMESTAMP => Qca::INTERVIEWSTARTTIMESTAMP,
+        QcaResults::INTERVIEWENDTIMESTAMP => Qca::INTERVIEWENDTIMESTAMP,
+        QcaResults::INTERVIEWENDTIME_HUMANREADABLE => Qca::INTERVIEWENDTIME_HUMANREADABLE,
+        QcaResults::DURATIONINTERVIEW => Qca::DURATIONINTERVIEW,
+        QcaResults::DURATIONTELEPHONE => Qca::DURATIONTELEPHONE,
+        QcaResults::DURATIONEND => Qca::DURATIONEND,
+        QcaResults::TIPCODE => Qca::TIPCODE,
+        QcaResults::SIGNAL => Qca::SIGNAL,
+        QcaResults::ISRESTART => Qca::ISRESTART,
+        QcaResults::ISSTOPPED => Qca::ISSTOPPED,
+        QcaResults::PREVTIPCODE => Qca::PREVTIPCODE,
+        QcaResults::SERIAL => Qca::SERIAL,
+        QcaResults::LASTQUESTION => Qca::LASTQUESTION,
+        QcaResults::SMSKEY => Qca::SMSKEY,
+    ];
 
 }
