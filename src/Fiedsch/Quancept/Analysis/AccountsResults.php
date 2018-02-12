@@ -88,7 +88,7 @@ class AccountsResults
      */
     public function getInterviewer()
     {
-        if (!isset($this->data[self::BY_INTERVIEWER])) {
+        if (isset($this->data[self::BY_INTERVIEWER])) {
             return array_keys($this->data[self::BY_INTERVIEWER]);
         }
         return [];
@@ -100,7 +100,7 @@ class AccountsResults
      */
     public function getDays()
     {
-        if (!isset($this->data[self::BY_DAY])) {
+        if (isset($this->data[self::BY_DAY])) {
             return array_keys($this->data[self::BY_DAY]);
         }
         return [];
