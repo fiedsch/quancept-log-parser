@@ -104,7 +104,7 @@ class QcaResults
             $this->data[self::BY_INTERVIEWER][$interviewer] = self::getInitialData();
         }
 
-        $mobfest = Helper::isMobileNumber($data[Qca::SMSKEY]) ? 'mobil' : 'fest'; // we use the telephone number as *key!
+        $mobfest = Helper::isMobileNumber($data[Qca::SMSKEY]) ? 'mobil' : 'fest'; // we use the telephone number as *key! (TODO: this is not generic)
 
         $record = &$this->data[self::BY_INTERVIEWER][$interviewer];
 
