@@ -214,7 +214,7 @@ class AccountsResults
 
     /**
      * Calculate minutes from an expression of hours:minutes format
-     * like '02:15' which would be 2 hour, 15 minutes which is 75 minutes
+     * like '02:15' which would be 2 hours, 15 minutes which is 75 minutes
      * @param integer $time
      * @return integer
      * @throws \RuntimeException
