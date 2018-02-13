@@ -119,4 +119,28 @@ class Helper
      //return preg_match("/^01/", $tel);
         return mb_substr($tel, 0, 2) === '01';
     }
+
+    /**
+     * @param integer $seconds the seconds to be converted to minutes
+     * @param string $strategy one of 'fractional', 'int', 'ceil', 'floor'
+     * @return double
+     */
+    public static function toMinutes($seconds, $strategy = 'fractional')
+    {
+        switch ($strategy) {
+            case 'int':
+                return intval($seconds/60);
+                break;
+            case 'ceil':
+                return ceil($seconds/60);
+                break;
+            case 'floor':
+                return floor($seconds/60);
+                break;
+            case 'fractional':
+            default:
+                return $seconds/60;
+                break;
+        }
+    }
 }

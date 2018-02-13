@@ -30,6 +30,7 @@ class HelperTest extends TestCase
         Assert::assertEquals($ts, Helper::makeTimestamp("060916 20:00", 'Europe/Berlin'));
         Assert::assertEquals($ts + 3600, Helper::makeTimestamp("060916 20:00", 'Europe/London'));
         $this->expectException(\RuntimeException::class);
+        // time not provided should throw an exception
         Helper::makeTimestamp("060916");
     }
 
@@ -46,5 +47,14 @@ class HelperTest extends TestCase
         Assert::assertEquals('180208 16:42', Helper::patchDate('180208', '16:42'));
         $this->expectException(\RuntimeException::class);
         Helper::patchDate("20060916");
+    }
+
+    public function testToMinutes()
+    {
+        Assert::assertEquals(1.5, Helper::toMinutes(90)); // defaults to 'fractional'
+        Assert::assertEquals(1.5, Helper::toMinutes(90, 'fractional'));
+        Assert::assertEquals(1, Helper::toMinutes(90, 'int'));
+        Assert::assertEquals(1, Helper::toMinutes(90, 'floor'));
+        Assert::assertEquals(2, Helper::toMinutes(90, 'ceil'));
     }
 }
