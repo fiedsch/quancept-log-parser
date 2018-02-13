@@ -123,14 +123,14 @@ class AccountsResults
         $record[self::TRIES][$data[self::START_DAY]][$mobfest]++;
         $record[self::TIPCODES][$data[self::START_DAY]][$mobfest][$data[self::TIPCODE]]++;
         $record[self::EXITCODES][$data[self::START_DAY]][$mobfest][$data[self::EXITCODE]]++;
-        $record[self::TOTALMINUTES][$data[self::START_DAY]][$mobfest] += $data[self::DURATION] / 60;
+        $record[self::TOTALMINUTES][$data[self::START_DAY]][$mobfest] += Helper::toMinutes($data[self::DURATION]);
         // get the time of the earliest and the latest record for this interviewer
         $minute = self::getMinutes($data[self::START_TIME]);
         if (!isset($record[self::STARTMINUTE][$data[self::START_DAY]])
             || $record[self::STARTMINUTE][$data[self::START_DAY]] > $minute) {
             $record[self::STARTMINUTE][$data[self::START_DAY]] = $minute;
         }
-        $minute += $data[self::DURATION] / 60;
+        $minute += Helper::toMinutes($data[self::DURATION]);
         if (!isset($record[self::STOPMINUTE][$data[self::START_DAY]])
             || $record[self::STOPMINUTE][$data[self::START_DAY]] < $minute) {
             $record[self::STOPMINUTE][$data[self::START_DAY]] = $minute;
@@ -147,7 +147,7 @@ class AccountsResults
             $record[self::IDLEMINUTES][$data[self::START_DAY]] += $startminute - $laststopminute;
             $record[self::IDLEBREAKS][$data[self::START_DAY]]++;
         }
-        $record[self::LASTSTOPMINUTE][$data[self::START_DAY]] = $startminute + $data[self::DURATION] / 60;
+        $record[self::LASTSTOPMINUTE][$data[self::START_DAY]] = $startminute + Helper::toMinutes($data[self::DURATION]);
     }
 
     /**
@@ -160,7 +160,7 @@ class AccountsResults
             $this->data[self::BY_DAY][$day] = self::getInitialData(true);
         }
 
-        $mobfest = Helper::isMobileNumber($data[self::TELEPHONE]) ? 'mobil' : 'fest';
+        $mobfest = Helper::isMobileNumber($data[self::SMSKEY]) ? 'mobil' : 'fest'; // we use the telephone number as *key! (TODO: this is not generic)
 
         $record = &$this->data[self::BY_DAY][$day];
 
@@ -170,13 +170,13 @@ class AccountsResults
         $record[self::TRIES]++;
         $record[self::TIPCODES][$mobfest][$data[self::TIPCODE]]++;
         $record[self::EXITCODES][$mobfest][$data[self::EXITCODE]]++;
-        $record[self::TOTALMINUTES][$mobfest] += $data[self::DURATION] / 60;
+        $record[self::TOTALMINUTES][$mobfest] += Helper::toMinutes($data[self::DURATION]);
         $minute = self::getMinutes($data[self::START_TIME]);
         if (!isset($record[self::STARTMINUTE])
             || $record[self::STARTMINUTE] > $minute) {
             $record[self::STARTMINUTE] = $minute;
         }
-        $minute += $data[self::DURATION] / 60;
+        $minute += Helper::toMinutes($data[self::DURATION]);
         if (!isset($record[self::STOPMINUTE])
             || $record[self::STOPMINUTE] < $minute) {
             $record[self::STOPMINUTE] = $minute;
