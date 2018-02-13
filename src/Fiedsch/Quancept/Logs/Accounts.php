@@ -43,8 +43,8 @@ class Accounts
      * "Column"-Indices
      */
 
-    const RECORD_KEY_FROM = 0;
-    const RECORD_KEY_TO = 14;
+    const RECORD_SMSKEY_FROM = 0;
+    const RECORD_SMSKEY_TO = 14;
 
     const TIMESTRIED_FROM = 15;
     const TIMESTRIED_TO = 18;
@@ -78,7 +78,7 @@ class Accounts
      * to be used with (e.g.) Fiedsch\Data\File\FixedWidthReader.
      */
     const ALL_COLUMNS = [
-        AccountsResults::KEY         => ['from' => Accounts::RECORD_KEY_FROM, 'to' => Accounts::RECORD_KEY_TO],
+        AccountsResults::SMSKEY      => ['from' => Accounts::RECORD_SMSKEY_FROM, 'to' => Accounts::RECORD_SMSKEY_TO],
         AccountsResults::TIMESTRIED  => ['from' => Accounts::TIMESTRIED_FROM, 'to' => Accounts::TIMESTRIED_TO],
         AccountsResults::START_DAY   => ['from' => Accounts::START_DATE_FROM, 'to' => Accounts::START_DATE_TO],
         AccountsResults::START_TIME  => ['from' => Accounts::START_TIME_FROM, 'to' => Accounts::START_TIME_TO],
