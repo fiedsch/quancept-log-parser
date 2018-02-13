@@ -79,7 +79,10 @@ class Helper
     }
 
     /**
-     * @param string $datestimetring A date and time string formatted as "ymd H:i" (e.g. "180327 16:26" for "2018-03-27 16:26")
+     * @param string $datestimetring A date and time string formatted as "ymd H:i"
+     * (e.g. "180327 16:26" for "2018-03-27 16:26". Note: we prepend '20' to the two
+     * digit year so all dates will be in the 21st century, which makes dates from
+     * the 1900s impossible and will only work for the next 80 years to come :-o)
      * @param string $timezone
      * @return int
      * @throws \RuntimeException
@@ -89,7 +92,8 @@ class Helper
         if (!preg_match("/^\d{6} \d{2}:\d{2}$/", $datestimetring)) {
             throw new \RuntimeException("invalid date/time format: '$datestimetring'");
         }
-        $dt = \DateTime::createFromFormat("ymd H:i" , $datestimetring, new \DateTimeZone($timezone));
+        // assume the date is in the 21st centuty == prepend '20' to the two digit year
+        $dt = \DateTime::createFromFormat("Ymd H:i" , '20'.$datestimetring, new \DateTimeZone($timezone));
         return $dt->getTimestamp();
     }
 
