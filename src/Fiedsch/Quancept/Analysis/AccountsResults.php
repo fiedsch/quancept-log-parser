@@ -18,8 +18,7 @@ class AccountsResults
      * Names for input data columns
      */
     const INTERVIEWER = 'interviewer';
-    const KEY         = 'key';
-    const TELEPHONE   = 'telephone';
+    const SMSKEY      = 'smskey';
     const TIMESTRIED  = 'timestried';
     const START_DAY   = 'start_day';
     const START_TIME  = 'start_time';
@@ -116,7 +115,7 @@ class AccountsResults
             $this->data[self::BY_INTERVIEWER][$interviewer] = self::getInitialData();
         }
 
-        $mobfest = Helper::isMobileNumber($data[self::TELEPHONE]) ? 'mobil' : 'fest';
+        $mobfest = Helper::isMobileNumber($data[self::SMSKEY]) ? 'mobil' : 'fest'; // we use the telephone number as *key! (TODO: this is not generic)
 
         $record = &$this->data[self::BY_INTERVIEWER][$interviewer];
 
