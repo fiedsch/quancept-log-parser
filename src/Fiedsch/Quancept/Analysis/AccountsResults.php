@@ -74,9 +74,11 @@ class AccountsResults
      */
     public function getData() {
         $result = $this->data;
-        foreach ($result[self::BY_INTERVIEWER] as $interviewer => &$data) {
-            // remove internal data
-            unset($data[self::LASTSTOPMINUTE]);
+        if ($result[self::BY_INTERVIEWER]) {
+            foreach ($result[self::BY_INTERVIEWER] as $interviewer => &$data) {
+                // remove internal data
+                unset($data[self::LASTSTOPMINUTE]);
+            }
         }
         return $result;
     }
