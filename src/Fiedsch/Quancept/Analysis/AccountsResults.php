@@ -175,7 +175,7 @@ class AccountsResults
         // Logic mainly the same as in addInterviewerRecord() except for
         // the computation of breaks that only makes sense on a
         // per interviewer base.
-        $record[self::TRIES]++;
+        $record[self::TRIES][$mobfest]++;
         $record[self::TIPCODES][$mobfest][$data[self::TIPCODE]]++;
         $record[self::EXITCODES][$mobfest][$data[self::EXITCODE]]++;
         $record[self::TOTALMINUTES][$mobfest] += Helper::toMinutes($data[self::DURATION]);
