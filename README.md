@@ -1,6 +1,6 @@
 # Parse Quancept CATI log files
 
-Quancept generates log files. Among these are `accounts.sms` and `projectname.qca`.
+Quancept generates log files. Among these are `accounts.sms` and `<projectname>.qca`.
 
 This library provides classes that help to make parsing these files easier.
 
@@ -12,8 +12,10 @@ opening an issue or even better make a pull request.
 ### Installation
 
 ```bash
-composer require "fiedsch/quancept-log-parser dev-master"
+composer require "fiedsch/quancept-log-parser <version>"
 ```
+
+where `<version>` is a versionstring like `0.2.0`.   
 
 ### Example one parse `accounts.sms`
 
