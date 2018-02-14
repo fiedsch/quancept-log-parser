@@ -91,6 +91,30 @@ class AccountsResults
     }
 
     /**
+     * @param string $interviewer
+     * @return array
+     */
+    public function getInterviewerData($interviewer)
+    {
+        if (isset($this->data[self::BY_INTERVIEWER][$interviewer])) {
+            return $this->data[self::BY_INTERVIEWER][$interviewer];
+        }
+        return [];
+    }
+
+    /**
+     * @param string $day
+     * @return array
+     */
+    public function getDayData($day)
+    {
+        if (isset($this->data[self::BY_DAY][$day])) {
+            return $this->data[self::BY_DAY][$day];
+        }
+        return [];
+    }
+
+    /**
      * Return the interviewer names found in the analysis data
      * @return array
      */
