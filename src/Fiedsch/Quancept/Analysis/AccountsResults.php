@@ -124,7 +124,7 @@ class AccountsResults
         $record[self::EXITCODES][$data[self::START_DAY]][$mobfest][$data[self::EXITCODE]]++;
         $record[self::TOTALMINUTES][$data[self::START_DAY]][$mobfest] += Helper::toMinutes($data[self::DURATION]);
         // get the time of the earliest and the latest record for this interviewer
-        $minute = self::getMinutes($data[self::START_TIME]);
+        $minute = Helper::getMinutes($data[self::START_TIME]);
         if (!isset($record[self::STARTMINUTE][$data[self::START_DAY]])
             || $record[self::STARTMINUTE][$data[self::START_DAY]] > $minute) {
             $record[self::STARTMINUTE][$data[self::START_DAY]] = $minute;
@@ -141,7 +141,7 @@ class AccountsResults
         // Interviewers gewertet!
         // Die Stopzeit des vorhergehende Datensatzes auswerten (sofern es eine gibt)
         $laststopminute = $record[self::LASTSTOPMINUTE][$data[self::START_DAY]] ?: 24*60;
-        $startminute = self::getMinutes($data[self::START_TIME]);
+        $startminute = Helper::getMinutes($data[self::START_TIME]);
         if ($laststopminute > 0 && ($laststopminute + self::DELTAINOUT < $startminute)) {
             $record[self::IDLEMINUTES][$data[self::START_DAY]] += $startminute - $laststopminute;
             $record[self::IDLEBREAKS][$data[self::START_DAY]]++;
@@ -170,7 +170,7 @@ class AccountsResults
         $record[self::TIPCODES][$mobfest][$data[self::TIPCODE]]++;
         $record[self::EXITCODES][$mobfest][$data[self::EXITCODE]]++;
         $record[self::TOTALMINUTES][$mobfest] += Helper::toMinutes($data[self::DURATION]);
-        $minute = self::getMinutes($data[self::START_TIME]);
+        $minute = Helper::getMinutes($data[self::START_TIME]);
         if (!isset($record[self::STARTMINUTE])
             || $record[self::STARTMINUTE] > $minute) {
             $record[self::STARTMINUTE] = $minute;
@@ -210,21 +210,6 @@ class AccountsResults
             unset($result[self::IDLEBREAKS]);
         }
         return $result;
-    }
-
-    /**
-     * Calculate minutes from an expression of hours:minutes format
-     * like '02:15' which would be 2 hours, 15 minutes which is 135 minutes
-     * @param integer $time
-     * @return integer
-     * @throws \RuntimeException
-     */
-    protected static function getMinutes($time)
-    {
-        if (!preg_match("/(\d+):(\d+)/", $time, $matches)) {
-            throw new \RuntimeException("invalid time '$time'");
-        }
-        return $matches[1]*60 + $matches[2];
     }
 
 }

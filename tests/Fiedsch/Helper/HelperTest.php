@@ -57,4 +57,11 @@ class HelperTest extends TestCase
         Assert::assertEquals(1, Helper::toMinutes(90, 'floor'));
         Assert::assertEquals(2, Helper::toMinutes(90, 'ceil'));
     }
+
+    public function testGetMinutes()
+    {
+        Assert::assertEquals(60, Helper::getMinutes('01:00'));
+        Assert::assertEquals(60*24 - 1, Helper::getMinutes('23:59'));
+    }
+
 }

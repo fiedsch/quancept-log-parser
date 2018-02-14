@@ -147,4 +147,20 @@ class Helper
                 break;
         }
     }
+
+    /**
+     * Calculate minutes from an expression of hours:minutes format
+     * like '02:15' which would be 2 hours, 15 minutes which is 135 minutes
+     * @param integer $time
+     * @return integer
+     * @throws \RuntimeException
+     */
+    public static function getMinutes($time)
+    {
+        if (!preg_match("/(\d+):(\d+)/", $time, $matches)) {
+            throw new \RuntimeException("invalid time '$time'");
+        }
+        return $matches[1]*60 + $matches[2];
+    }
+
 }
