@@ -47,6 +47,13 @@ class AccountsResults
     const BY_DAY = 'day';
     const BY_INTERVIEWER = 'interviewer';
 
+
+    /**
+     * Split "Mobilfunk" (mobile telephony) and "Festnetz" (landline network) numbers
+     */
+    const MOBIL = 'mobil';
+    const FEST = 'fest';
+
     /**
      * Maximale Differenz zwischen zwei Interviewzeitpunkten, die noch nicht
      * als Pause (d.h. Interviewer ausgeloggt) gewertet wird. Angabe in Minuten.
@@ -117,7 +124,7 @@ class AccountsResults
             $this->data[self::BY_INTERVIEWER][$interviewer] = self::getInitialData();
         }
 
-        $mobfest = Helper::isMobileNumber($data[self::SMSKEY]) ? 'mobil' : 'fest'; // we use the telephone number as *key! (TODO: this is not generic)
+        $mobfest = Helper::isMobileNumber($data[self::SMSKEY]) ? self::MOBIL : self::FEST; // we use the telephone number as *key! (TODO: this is not generic)
 
         $record = &$this->data[self::BY_INTERVIEWER][$interviewer];
 
@@ -161,7 +168,7 @@ class AccountsResults
             $this->data[self::BY_DAY][$day] = self::getInitialData(true);
         }
 
-        $mobfest = Helper::isMobileNumber($data[self::SMSKEY]) ? 'mobil' : 'fest'; // we use the telephone number as *key! (TODO: this is not generic)
+        $mobfest = Helper::isMobileNumber($data[self::SMSKEY]) ? self::MOBIL : self::FEST; // we use the telephone number as *key! (TODO: this is not generic)
 
         $record = &$this->data[self::BY_DAY][$day];
 
