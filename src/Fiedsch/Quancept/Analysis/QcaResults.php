@@ -13,7 +13,7 @@ use Fiedsch\Quancept\Logs\Qca;
  * @package Fiedsch\Quancept
  * @author Andreas Fieger
  */
-class QcaResults
+class QcaResults extends LogfileResults
 {
     /**
      * Names for input data columns
@@ -39,59 +39,14 @@ class QcaResults
     /*
      * computed data
      */
-    const MOBFEST = 'mobfest';
-    const DAY = 'day';
-    const HOUR = 'hour';
     const DURATIONTOTAL = 'durationtotal';
-
-    /**
-     * Names for the types of data collection
-     */
-    const BY_DAY = 'day';
-    const BY_INTERVIEWER = 'interviewer';
-
-    /**
-     * @var array
-     */
-    protected $data;
 
     /**
      * AccountsResults constructor.
      */
     public function __construct()
     {
-        $this->data = [];
-    }
-
-    /**
-     * @return array
-     */
-    public function getData() {
-        return $this->data;
-    }
-
-    /**
-     * Return the interviewer names found in the analysis data
-     * @return array
-     */
-    public function getInterviewer()
-    {
-        if (isset($this->data[self::BY_INTERVIEWER])) {
-            return array_keys($this->data[self::BY_INTERVIEWER]);
-        }
-        return [];
-    }
-
-    /**
-     * Return the days found in the analysis data
-     * @return array
-     */
-    public function getDays()
-    {
-        if (isset($this->data[self::BY_DAY])) {
-            return array_keys($this->data[self::BY_DAY]);
-        }
-        return [];
+        parent::__construct();
     }
 
     /**
@@ -104,7 +59,7 @@ class QcaResults
             $this->data[self::BY_INTERVIEWER][$interviewer] = self::getInitialData();
         }
 
-        $mobfest = Helper::isMobileNumber($data[Qca::SMSKEY]) ? 'mobil' : 'fest'; // we use the telephone number as *key! (TODO: this is not generic)
+        $mobfest = Helper::isMobileNumber($data[Qca::SMSKEY]) ? self::MOBIL : self::FEST; // we use the telephone number as *key! (TODO: this is not generic)
 
         $record = &$this->data[self::BY_INTERVIEWER][$interviewer];
 
@@ -139,7 +94,7 @@ class QcaResults
             $this->data[self::BY_DAY][$day] = self::getInitialData(true);
         }
 
-        $mobfest = Helper::isMobileNumber($data[Qca::SMSKEY]) ? 'mobil' : 'fest'; // we use the telephone number as *key!
+        $mobfest = Helper::isMobileNumber($data[Qca::SMSKEY]) ? self::MOBIL : self::FEST; // we use the telephone number as *key! (TODO: this is not generic)
 
         $record = &$this->data[self::BY_DAY][$day];
 

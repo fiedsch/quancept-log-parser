@@ -12,7 +12,7 @@ use Fiedsch\Quancept\Helper;
  * @package Fiedsch\Quancept
  * @author Andreas Fieger
  */
-class AccountsResults
+class AccountsResults extends LogfileResults
 {
     /**
      * Names for input data columns
@@ -42,19 +42,6 @@ class AccountsResults
     const TIPCODES = 'tipcodes';
 
     /**
-     * Names for the types of data collection
-     */
-    const BY_DAY = 'day';
-    const BY_INTERVIEWER = 'interviewer';
-
-
-    /**
-     * Split "Mobilfunk" (mobile telephony) and "Festnetz" (landline network) numbers
-     */
-    const MOBIL = 'mobil';
-    const FEST = 'fest';
-
-    /**
      * Maximale Differenz zwischen zwei Interviewzeitpunkten, die noch nicht
      * als Pause (d.h. Interviewer ausgeloggt) gewertet wird. Angabe in Minuten.
      * Angewendet wird diese Zeitangabe auf die Differenz zwischen Endzeitpunkt
@@ -73,7 +60,7 @@ class AccountsResults
      */
     public function __construct()
     {
-        $this->data = [];
+        parent::__construct();
     }
 
     /**
@@ -88,54 +75,6 @@ class AccountsResults
             }
         }
         return $result;
-    }
-
-    /**
-     * @param string $interviewer
-     * @return array
-     */
-    public function getInterviewerData($interviewer)
-    {
-        if (isset($this->data[self::BY_INTERVIEWER][$interviewer])) {
-            return $this->data[self::BY_INTERVIEWER][$interviewer];
-        }
-        return [];
-    }
-
-    /**
-     * @param string $day
-     * @return array
-     */
-    public function getDayData($day)
-    {
-        if (isset($this->data[self::BY_DAY][$day])) {
-            return $this->data[self::BY_DAY][$day];
-        }
-        return [];
-    }
-
-    /**
-     * Return the interviewer names found in the analysis data
-     * @return array
-     */
-    public function getInterviewer()
-    {
-        if (isset($this->data[self::BY_INTERVIEWER])) {
-            return array_keys($this->data[self::BY_INTERVIEWER]);
-        }
-        return [];
-    }
-
-    /**
-     * Return the days found in the analysis data
-     * @return array
-     */
-    public function getDays()
-    {
-        if (isset($this->data[self::BY_DAY])) {
-            return array_keys($this->data[self::BY_DAY]);
-        }
-        return [];
     }
 
     /**
