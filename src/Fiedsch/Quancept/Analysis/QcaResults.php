@@ -66,6 +66,7 @@ class QcaResults extends LogfileResults
         $day = date("ymd", $data[Qca::INTERVIEWSTARTTIMESTAMP]);
 
         $record[self::STUDYNAME][$day][$mobfest][$data[Qca::STUDYNAME]]++;
+        $record[self::USERNAME][$day][$mobfest][$data[Qca::USERNAME]]++; // only makes sense if we aggregete the date!
         $record[self::DURATIONTELEPHONE][$day][$mobfest] += $data[Qca::DURATIONTELEPHONE];
         $record[self::DURATIONINTERVIEW][$day][$mobfest] += $data[Qca::DURATIONINTERVIEW];
         $record[self::DURATIONEND][$day][$mobfest]       += $data[Qca::DURATIONEND];
@@ -102,6 +103,7 @@ class QcaResults extends LogfileResults
         // the fields like day that do not make sense here.
 
         $record[self::STUDYNAME][$day][$mobfest][$data[Qca::STUDYNAME]]++;
+        $record[self::USERNAME][$day][$mobfest][$data[Qca::USERNAME]]++; // only makes sense if we aggregete the date!
         $record[self::DURATIONTELEPHONE][$day][$mobfest] += $data[Qca::DURATIONTELEPHONE];
         $record[self::DURATIONINTERVIEW][$day][$mobfest] += $data[Qca::DURATIONINTERVIEW];
         $record[self::DURATIONEND][$day][$mobfest]       += $data[Qca::DURATIONEND];
