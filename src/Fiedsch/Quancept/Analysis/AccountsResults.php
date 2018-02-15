@@ -233,8 +233,6 @@ class AccountsResults
             self::TIPCODES         => [],  // alle Tipcodes
         ];
         if ($forDays) {
-            // here these values are scalars
-            $result[self::TRIES] = null;
             $result[self::STARTMINUTE] = null;
             $result[self::STOPMINUTE] = null;
             $result[self::TOTALMINUTES] = null;
