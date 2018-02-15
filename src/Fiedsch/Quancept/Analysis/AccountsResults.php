@@ -233,9 +233,14 @@ class AccountsResults
             self::TIPCODES         => [],  // alle Tipcodes
         ];
         if ($forDays) {
+            //these values are scalars here (we do not split days data by Interviewer
+            // as we do split interviewer data by days!)
+            $result[self::STARTMINUTE] = null;
             $result[self::STARTMINUTE] = null;
             $result[self::STOPMINUTE] = null;
             $result[self::TOTALMINUTES] = null;
+            // these can not be computed here as we consider all interviewers
+            // at the same time.
             unset($result[self::LASTSTOPMINUTE]);
             unset($result[self::IDLEMINUTES]);
             unset($result[self::IDLEBREAKS]);
