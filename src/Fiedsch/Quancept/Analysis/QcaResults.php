@@ -39,7 +39,8 @@ class QcaResults extends LogfileResults
     /*
      * computed data
      */
-    const DURATIONTOTAL = 'durationtotal';
+    // const DURATIONTOTAL = 'durationtotal'; // TODO this was wrong and we should rather have
+    // const DURATIONQUESTIONNAIRE = 'durationquestionnaire'; // which is INTERVIEW - TELEPHONE (note: INTERVIEW != QUESTIONNAIRE)
 
     /**
      * AccountsResults constructor.
@@ -79,10 +80,10 @@ class QcaResults extends LogfileResults
         // computed columns
         $record[self::DAY][$day][$mobfest][date('ymd', $data[Qca::INTERVIEWSTARTTIMESTAMP])]++;
         $record[self::HOUR][$day][$mobfest][date('H', $data[Qca::INTERVIEWSTARTTIMESTAMP])]++;
-        $record[self::DURATIONTOTAL][$day][$mobfest] +=
-                $data[Qca::DURATIONTELEPHONE] +
-                $data[Qca::DURATIONINTERVIEW] +
-                $data[Qca::DURATIONEND];
+        //$record[self::DURATIONTOTAL][$day][$mobfest] +=
+        //        $data[Qca::DURATIONTELEPHONE] +
+        //        $data[Qca::DURATIONINTERVIEW] +
+        //        $data[Qca::DURATIONEND];
     }
 
     /**
@@ -116,10 +117,10 @@ class QcaResults extends LogfileResults
         $record[self::USERNAME][$day][$mobfest][$data[Qca::USERNAME]]++;
         // computed columns
         $record[self::HOUR][$day][$mobfest][date('H', $data[Qca::INTERVIEWSTARTTIMESTAMP])]++;
-        $record[self::DURATIONTOTAL][$day][$mobfest] +=
-            $data[Qca::DURATIONTELEPHONE] +
-            $data[Qca::DURATIONINTERVIEW] +
-            $data[Qca::DURATIONEND];
+        //$record[self::DURATIONTOTAL][$day][$mobfest] +=
+        //    $data[Qca::DURATIONTELEPHONE] +
+        //    $data[Qca::DURATIONINTERVIEW] +
+        //    $data[Qca::DURATIONEND];
     }
 
 
@@ -147,7 +148,7 @@ class QcaResults extends LogfileResults
             // computed columns
             self::DAY                     => [],
             self::HOUR                    => [],
-            self::DURATIONTOTAL           => [],
+            //self::DURATIONTOTAL           => [],
         ];
         if ($forDays) {
             unset($result[self::DAY]);

@@ -46,7 +46,7 @@ class QcaResultsAggregator extends ResultsAggregator
                          QcaResults::PREVTIPCODE       => 'mobfest:array',
                          QcaResults::LASTQUESTION      => 'mobfest:array',
                          QcaResults::HOUR              => 'mobfest:array',
-                         QcaResults::DURATIONTOTAL     => 'mobfest:scalar',
+                         //QcaResults::DURATIONTOTAL     => 'mobfest:scalar',
                          QcaResults::USERNAME          => 'mobfest:array',
                      ] as $statistic => $datastructure) {
                 $datastructurecomponents = explode(":", $datastructure);
@@ -92,7 +92,7 @@ class QcaResultsAggregator extends ResultsAggregator
                      QcaResults::PREVTIPCODE       => 'mobfest:array',
                      QcaResults::LASTQUESTION      => 'mobfest:array',
                      QcaResults::HOUR              => 'mobfest:array',
-                     QcaResults::DURATIONTOTAL     => 'mobfest:scalar',
+                     //QcaResults::DURATIONTOTAL     => 'mobfest:scalar',
                      QcaResults::USERNAME          => 'mobfest:array',
                  ] as $statistic => $datastructure) {
 
