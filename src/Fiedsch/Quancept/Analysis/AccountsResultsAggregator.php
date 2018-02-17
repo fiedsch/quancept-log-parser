@@ -35,14 +35,14 @@ class AccountsResultsAggregator extends ResultsAggregator
         foreach ($this->results->getInterviewer() as $interviewer) {
             $result[$interviewer] = [];
             foreach ([
-                         'tries'        => 'mobfest:scalar',
-                         //'startminute'  => 'scalar', // does not makesense to aggregate (maybe min()?)
-                         //'stopminute'   => 'scalar', // does not makesense to aggregate (maybe max()?)
-                         'totalminutes' => 'mobfest:scalar',
-                         'idleminutes'  => 'scalar',
-                         'idlebreaks'   => 'scalar',
-                         'exitcodes'    => 'mobfest:array',
-                         'tipcodes'     => 'mobfest:array',
+                         AccountsResults::TRIES        => 'mobfest:scalar',
+                         // AccountsResults::STARTMINUTE  => 'scalar', // does not makesense to aggregate (maybe min()?)
+                         // AccountsResults::STOPMINUTE   => 'scalar', // does not makesense to aggregate (maybe max()?)
+                         AccountsResults::TOTALDURATION => 'mobfest:scalar',
+                         AccountsResults::IDLEMINUTES  => 'scalar',
+                         AccountsResults::IDLEBREAKS   => 'scalar',
+                         AccountsResults::EXITCODES    => 'mobfest:array',
+                         AccountsResults::TIPCODES     => 'mobfest:array',
                      ] as $statistic => $datastructure) {
                 $datastructurecomponents = explode(":", $datastructure);
                 if ($datastructurecomponents[0] === 'mobfest') {
@@ -75,14 +75,14 @@ class AccountsResultsAggregator extends ResultsAggregator
         $aggregatedByInterviewer = $this->aggregate(self::BY_INTERVIEWER);
         $result = [];
         foreach ([
-                     'tries'        => 'mobfest:scalar',
-                     //'startminute'  => 'scalar', // does not makesense to aggregate (maybe min()?)
-                     //'stopminute'   => 'scalar', // does not makesense to aggregate (maybe max()?)
-                     'totalminutes' => 'mobfest:scalar',
-                     'idleminutes'  => 'scalar',
-                     'idlebreaks'   => 'scalar',
-                     'exitcodes'    => 'mobfest:array',
-                     'tipcodes'     => 'mobfest:array',
+                     AccountsResults::TRIES        => 'mobfest:scalar',
+                     // AccountsResults::STARTMINUTE  => 'scalar', // does not makesense to aggregate (maybe min()?)
+                     // AccountsResults::STOPMINUTE   => 'scalar', // does not makesense to aggregate (maybe max()?)
+                     AccountsResults::TOTALDURATION => 'mobfest:scalar',
+                     AccountsResults::IDLEMINUTES  => 'scalar',
+                     AccountsResults::IDLEBREAKS   => 'scalar',
+                     AccountsResults::EXITCODES    => 'mobfest:array',
+                     AccountsResults::TIPCODES     => 'mobfest:array',
                  ] as $statistic => $datastructure) {
 
             $datastructurecomponents = explode(":", $datastructure);

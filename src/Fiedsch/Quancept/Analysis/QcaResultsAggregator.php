@@ -35,19 +35,19 @@ class QcaResultsAggregator extends ResultsAggregator
         foreach ($this->results->getInterviewer() as $interviewer) {
             $result[$interviewer] = [];
             foreach ([
-                         'studyname'         => 'mobfest:array',
-                         'durationtelephone' => 'mobfest:scalar',
-                         'durationinterview' => 'mobfest:scalar',
-                         'durationend'       => 'mobfest:scalar',
-                         'tipcode'           => 'mobfest:array',
-                         'signal'            => 'mobfest:array',
-                         'isrestart'         => 'mobfest:array',
-                         'isstopped'         => 'mobfest:array',
-                         'prevtipcode'       => 'mobfest:array',
-                         'lastquestion'      => 'mobfest:array',
-                         'hour'              => 'mobfest:array',
-                         'durationtotal'     => 'mobfest:scalar',
-                         'username'          => 'mobfest:array',
+                         QcaResults::STUDYNAME         => 'mobfest:array',
+                         QcaResults::DURATIONTELEPHONE => 'mobfest:scalar',
+                         QcaResults::DURATIONINTERVIEW => 'mobfest:scalar',
+                         QcaResults::DURATIONEND       => 'mobfest:scalar',
+                         QcaResults::TIPCODE           => 'mobfest:array',
+                         QcaResults::SIGNAL            => 'mobfest:array',
+                         QcaResults::ISRESTART         => 'mobfest:array',
+                         QcaResults::ISSTOPPED         => 'mobfest:array',
+                         QcaResults::PREVTIPCODE       => 'mobfest:array',
+                         QcaResults::LASTQUESTION      => 'mobfest:array',
+                         QcaResults::HOUR              => 'mobfest:array',
+                         QcaResults::DURATIONTOTAL     => 'mobfest:scalar',
+                         QcaResults::USERNAME          => 'mobfest:array',
                      ] as $statistic => $datastructure) {
                 $datastructurecomponents = explode(":", $datastructure);
                 if ($datastructurecomponents[0] === 'mobfest') {
@@ -81,19 +81,19 @@ class QcaResultsAggregator extends ResultsAggregator
         $aggregatedByInterviewer = $this->aggregate(self::BY_INTERVIEWER);
         $result = [];
         foreach ([
-                     'studyname'         => 'mobfest:array',
-                     'durationtelephone' => 'mobfest:scalar',
-                     'durationinterview' => 'mobfest:scalar',
-                     'durationend'       => 'mobfest:scalar',
-                     'tipcode'           => 'mobfest:array',
-                     'signal'            => 'mobfest:array',
-                     'isrestart'         => 'mobfest:array',
-                     'isstopped'         => 'mobfest:array',
-                     'prevtipcode'       => 'mobfest:array',
-                     'lastquestion'      => 'mobfest:array',
-                     'hour'              => 'mobfest:array',
-                     'durationtotal'     => 'mobfest:scalar',
-                     'username'          => 'mobfest:array',
+                     QcaResults::STUDYNAME         => 'mobfest:array',
+                     QcaResults::DURATIONTELEPHONE => 'mobfest:scalar',
+                     QcaResults::DURATIONINTERVIEW => 'mobfest:scalar',
+                     QcaResults::DURATIONEND       => 'mobfest:scalar',
+                     QcaResults::TIPCODE           => 'mobfest:array',
+                     QcaResults::SIGNAL            => 'mobfest:array',
+                     QcaResults::ISRESTART         => 'mobfest:array',
+                     QcaResults::ISSTOPPED         => 'mobfest:array',
+                     QcaResults::PREVTIPCODE       => 'mobfest:array',
+                     QcaResults::LASTQUESTION      => 'mobfest:array',
+                     QcaResults::HOUR              => 'mobfest:array',
+                     QcaResults::DURATIONTOTAL     => 'mobfest:scalar',
+                     QcaResults::USERNAME          => 'mobfest:array',
                  ] as $statistic => $datastructure) {
 
             $datastructurecomponents = explode(":", $datastructure);
