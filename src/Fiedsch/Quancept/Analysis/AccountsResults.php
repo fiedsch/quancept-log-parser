@@ -35,7 +35,7 @@ class AccountsResults extends LogfileResults
     const STARTMINUTE = 'startminute';
     const STOPMINUTE = 'stopminute';
     const LASTSTOPMINUTE = 'laststopminute';
-    const TOTALMINUTES = 'totalminutes';
+    const TOTALDURATION = 'totalduration';
     const IDLEMINUTES = 'idleminutes';
     const IDLEBREAKS = 'idlebreaks';
     const EXITCODES = 'exitcodes';
@@ -94,7 +94,7 @@ class AccountsResults extends LogfileResults
         $record[self::TRIES][$data[self::START_DAY]][$mobfest]++;
         $record[self::TIPCODES][$data[self::START_DAY]][$mobfest][$data[self::TIPCODE]]++;
         $record[self::EXITCODES][$data[self::START_DAY]][$mobfest][$data[self::EXITCODE]]++;
-        $record[self::TOTALMINUTES][$data[self::START_DAY]][$mobfest] += Helper::toMinutes($data[self::DURATION]);
+        $record[self::TOTALDURATION][$data[self::START_DAY]][$mobfest] += Helper::toMinutes($data[self::DURATION]);
         // get the time of the earliest and the latest record for this interviewer
         $minute = Helper::getMinutes($data[self::START_TIME]);
         if (!isset($record[self::STARTMINUTE][$data[self::START_DAY]])
@@ -141,7 +141,7 @@ class AccountsResults extends LogfileResults
         $record[self::TRIES][$mobfest]++;
         $record[self::TIPCODES][$mobfest][$data[self::TIPCODE]]++;
         $record[self::EXITCODES][$mobfest][$data[self::EXITCODE]]++;
-        $record[self::TOTALMINUTES][$mobfest] += Helper::toMinutes($data[self::DURATION]);
+        $record[self::TOTALDURATION][$mobfest] += Helper::toMinutes($data[self::DURATION]);
         $minute = Helper::getMinutes($data[self::START_TIME]);
         if (!isset($record[self::STARTMINUTE])
             || $record[self::STARTMINUTE] > $minute) {
@@ -165,11 +165,11 @@ class AccountsResults extends LogfileResults
             self::STARTMINUTE      => [],  // Anfangszeit erstes Interview
             self::STOPMINUTE       => [],  // Endzeit letztes Interview des Tages
             self::LASTSTOPMINUTE   => [],  // Endzeit letztes aus accounts.sms gelesenes Interview
-            self::TOTALMINUTES     => [],  // Gesamtzeit (Loginzeit)
             self::IDLEMINUTES      => [],  // Gesamtzeit die der Interviewer auf Status Pause war
             self::IDLEBREAKS       => [],  // Anzahl der Perioden die in "idleminutes" summiert werden
             self::EXITCODES        => [],  // alle Quancept-Exitcodes
             self::TIPCODES         => [],  // alle Tipcodes
+            self::TOTALDURATION  => [],  // Gesamtzeit (Loginzeit)
         ];
         if ($forDays) {
             //these values are scalars here (we do not split days data by Interviewer
@@ -177,7 +177,7 @@ class AccountsResults extends LogfileResults
             $result[self::STARTMINUTE] = null;
             $result[self::STARTMINUTE] = null;
             $result[self::STOPMINUTE] = null;
-            $result[self::TOTALMINUTES] = null;
+            $result[self::TOTALDURATION] = null;
             // these can not be computed here as we consider all interviewers
             // at the same time.
             unset($result[self::LASTSTOPMINUTE]);
