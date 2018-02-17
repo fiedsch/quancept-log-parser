@@ -161,15 +161,15 @@ class AccountsResults extends LogfileResults
     protected static function getInitialData($forDays = false)
     {
         $result = [
-            self::TRIES            => [],  // Gesamtzahl Versuche (vorgelegte Nummern)
-            self::STARTMINUTE      => [],  // Anfangszeit erstes Interview
-            self::STOPMINUTE       => [],  // Endzeit letztes Interview des Tages
-            self::LASTSTOPMINUTE   => [],  // Endzeit letztes aus accounts.sms gelesenes Interview
-            self::IDLEMINUTES      => [],  // Gesamtzeit die der Interviewer auf Status Pause war
-            self::IDLEBREAKS       => [],  // Anzahl der Perioden die in "idleminutes" summiert werden
-            self::EXITCODES        => [],  // alle Quancept-Exitcodes
-            self::TIPCODES         => [],  // alle Tipcodes
+            self::TRIES          => [],  // Gesamtzahl Versuche (vorgelegte Nummern)
+            self::STARTMINUTE    => [],  // Anfangszeit erstes Interview
+            self::STOPMINUTE     => [],  // Endzeit letztes Interview des Tages
+            self::LASTSTOPMINUTE => [],  // Endzeit letztes aus accounts.sms gelesenes Interview
             self::TOTALDURATION  => [],  // Gesamtzeit (Loginzeit)
+            self::IDLEMINUTES    => [],  // Gesamtzeit die der Interviewer auf Status Pause war
+            self::IDLEBREAKS     => [],  // Anzahl der Perioden die in "idleminutes" summiert werden
+            self::EXITCODES      => [],  // alle Quancept-Exitcodes
+            self::TIPCODES       => [],  // alle Tipcodes
         ];
         if ($forDays) {
             //these values are scalars here (we do not split days data by Interviewer
